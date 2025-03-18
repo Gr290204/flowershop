@@ -17,8 +17,8 @@ return new class extends Migration
             $table->date('order_date');
             $table->unsignedBigInteger('order_status');
             $table->integer('order_price');
-            $table->foreign('client_id')->references('client_id')->on('clients')->onDelete('cascade');
-            $table->foreign('order_status')->references('status_id')->on('status')->onDelete('cascade');
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreign('order_status')->references('id')->on('statuses')->onDelete('cascade');
         });
     }
 

@@ -9,9 +9,9 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('status', function (Blueprint $table) {
+        Schema::create('statuses', function (Blueprint $table) {
             $table->id();
             $table->string('status_title', 32);
             $table->tinyInteger('status_end')->default(0);
@@ -21,9 +21,9 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('status');
+        Schema::dropIfExists('statuses');
         Schema::dropIfExists('orders');
     }
 };

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>609-11</title>
+    <title>Клиенты</title>
 </head>
 <body>
 <h2>{{ $client ? "Список заказов клиента: " . $client->client_name : 'Неверный ID категории' }}</h2>
