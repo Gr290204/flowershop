@@ -33,6 +33,8 @@
         </tr>
     @endforeach
 </table>
+{{ $orders->links() }}
 <a href="{{ url('order/create') }}">Создать</a>
+
 </body>
 </html>

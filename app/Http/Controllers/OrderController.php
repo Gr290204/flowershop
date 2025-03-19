@@ -10,10 +10,11 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
+        $perpage = $request->perpage ?? 2;
         return view('orders', [
-            'orders' => Order::all()
+            'orders' => Order::paginate($perpage)->withQueryString()
         ]);
     }
     public function show(string $id)
