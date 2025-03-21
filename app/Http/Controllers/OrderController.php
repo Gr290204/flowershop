@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Order;
 use App\Models\Status;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class OrderController extends Controller
 {
@@ -46,11 +48,15 @@ class OrderController extends Controller
         return redirect('/order');
     }
     public function edit(string $id){
+        if (! Gate::allows('edit-order', Order::all()->where('id', $id)->first())) {
+            return redirect('/error')->with('message', 'У вас нет разрешения на редактирование заказа номер ' . $id);
+        }
         return view('order_edit', [
             'order'=> Order::all()->where('id', $id)->first(),
             'clients' => Client::all(),
             'statuses' => Status::all()
         ]);
+
     }
     public function update(Request $request, string $id)
     {
@@ -73,6 +79,10 @@ class OrderController extends Controller
 
     public function destroy(string $id)
     {
+        if (! Gate::allows('destroy-order', Order::all()->where('id', $id)->first())) {
+            return redirect('/error')->with('message', 'У вас нет разрешения на удаление заказа номер ' . $id);
+        }
+
         Order::destroy($id);
         return redirect('/order');
     }
