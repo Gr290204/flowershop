@@ -43,4 +43,16 @@
             @endif
         </ul>
     </nav>
+    <form method="get" action="{{ url('orders') }}" class="form-inline">
+        <div class="form-group mb-2">
+            <label for="perpage" class="mr-2">Показывать на странице:</label>
+            <select name="perpage" id="perpage" class="form-control">
+                <option value="2" @if($paginator->perPage() == 2) selected @endif>2</option>
+                <option value="3" @if($paginator->perPage() == 3) selected @endif>3</option>
+                <option value="4" @if($paginator->perPage() == 4) selected @endif>4</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Изменить</button>
+    </form>
+
 @endif

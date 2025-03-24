@@ -1,52 +1,62 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Создание заказа</title>
-    <style>
-        .is-invalid { color: red; }
-    </style>
-</head>
-<body>
-<h2>Добавление заказа</h2>
-<form method="post" action="{{ url('order') }}">
-    @csrf
-    <label>Client ID</label>
-    <select name="client_id" value="{{ old('client_id') }}">
-        <option style="...">
-        @foreach ($clients as $client)
-            <option value="{{ $client->id }}"
-                    @if(old('client_id') == $client->id) selected @endif>
-                {{ $client->client_name }}
-            </option>
-        @endforeach
-        </option>
-    </select>
-    @error('client_id')
-    <div class="is-invalid">{{ $message }}</div>
-    @enderror
-    <br>
-    <label>Order Date</label>
-    <input type="date" name="order_date" value="{{ old('order_date') }}" required />
-    @error('order_date')
-    <div class="is-invalid">{{ $message }}</div>
-    @enderror<br>
-    <label>Order Status</label>
-    <select name="order_status" value="{{ old('order_status') }}">
-        <option style="..."></option>
-        @foreach ($statuses as $status)
-            <option value="{{ $status->id }}"
-                    @if(old('order_status') == $status->id) selected @endif>
-                {{ $status->status_title }}
-            </option>
-        @endforeach
-    </select><br>
-    <label>Order Price</label>
-    <input type="number" name="order_price" value="{{ old('order_price') }}" required />
-    @error('order_price')
-    <div class="is-invalid">{{ $message }}</div>
-    @enderror<br>
-    <input type="submit" value="Создать заказ">
-</form>
-</body>
-</html>
+@extends("/layout")
+@section("title")
+    Главная
+@endsection
+
+@section('main_content')
+    <div class="container mt-5">
+        <h2 class="mb-4">Добавление заказа</h2>
+        <form method="post" action="{{ url('order') }}">
+            @csrf
+            <div class="mb-3">
+                <label for="client_id" class="form-label">Client ID</label>
+                <select name="client_id" id="client_id" class="form-select" required>
+                    <option value="">Выберите клиента</option>
+                    @foreach ($clients as $client)
+                        <option value="{{ $client->id }}"
+                                @if(old('client_id') == $client->id) selected @endif>
+                            {{ $client->client_name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('client_id')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="order_date" class="form-label">Order Date</label>
+                <input type="date" name="order_date" id="order_date" class="form-control" value="{{ old('order_date') }}" required />
+                @error('order_date')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="order_status" class="form-label">Order Status</label>
+                <select name="order_status" id="order_status" class="form-select" required>
+                    <option value="">Выберите статус</option>
+                    @foreach ($statuses as $status)
+                        <option value="{{ $status->id }}"
+                                @if(old('order_status') == $status->id) selected @endif>
+                            {{ $status->status_title }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('order_status')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="order_price" class="form-label">Order Price</label>
+                <input type="number" name="order_price" id="order_price" class="form-control" value="{{ old('order_price') }}" required />
+                @error('order_price')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <button type="submit" class="btn btn-primary">Создать заказ</button>
+        </form>
+    </div>
+@endsection

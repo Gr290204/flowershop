@@ -49,7 +49,9 @@ class OrderController extends Controller
     }
     public function edit(string $id){
         if (! Gate::allows('edit-order', Order::all()->where('id', $id)->first())) {
-            return redirect('/error')->with('message', 'У вас нет разрешения на редактирование заказа номер ' . $id);
+            return redirect()->intended('/orders')->withErrors([
+                'error' => 'У вас нет разрешения на редактирование заказа номер ' . $id,
+            ]);
         }
         return view('order_edit', [
             'order'=> Order::all()->where('id', $id)->first(),
@@ -80,11 +82,15 @@ class OrderController extends Controller
     public function destroy(string $id)
     {
         if (! Gate::allows('destroy-order', Order::all()->where('id', $id)->first())) {
-            return redirect('/error')->with('message', 'У вас нет разрешения на удаление заказа номер ' . $id);
+            return redirect()->intended('/orders')->withErrors([
+                'error' => 'У вас нет разрешения на удаление заказа номер ' . $id,
+            ]);
         }
 
         Order::destroy($id);
-        return redirect('/order');
+        return redirect()->intended('/orders')->withErrors([
+            'success' => 'Вы успешно удалили заказ  ' . $id,
+        ]);
     }
 
 
