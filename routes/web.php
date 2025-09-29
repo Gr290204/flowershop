@@ -1,10 +1,17 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClientControllerApi;
+use App\Http\Controllers\FlowerControllerApi;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderControllerApi;
 use App\Http\Controllers\StatusController;
 use Illuminate\Support\Facades\Route;
+
+
+
 
 Route::get('/', function () {
     return view('home');
@@ -15,6 +22,7 @@ Route::get('/hello', function () {
 });
 Route::middleware(['auth'])->group(function () {
     Route::get('/statuses', [StatusController::class, 'index']);
+
 
     Route::get('/clients', [ClientController::class, 'index']);
     Route::get('/client/{id}', [ClientController::class, 'show']);
