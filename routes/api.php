@@ -24,7 +24,7 @@ Route::group(['middleware' =>['auth:sanctum']], function(){
 Route::get('client', [ClientControllerApi::class, 'index']);
 Route::get('client/{id}', [ClientControllerApi::class, 'show']);
 Route::get('/client_total', [ClientControllerApi::class, 'total']);
-Route::get('flower_total', [FlowerControllerApi::class, 'index']);
+Route::get('flower_total', [FlowerControllerApi::class, 'total']);
 Route::get('flower/{id}', [FlowerControllerApi::class, 'show']);
 Route::get('flower', [FlowerControllerApi::class, 'index']);
 Route::post('login', [AuthController::class, 'login']);
