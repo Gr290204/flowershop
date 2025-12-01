@@ -19,6 +19,8 @@ Route::group(['middleware' =>['auth:sanctum']], function(){
     });
     Route::get( '/logout', [AuthController::class, 'logout']);
 
+    Route::post('/flower', [FlowerControllerApi::class, 'store']);
+    Route::post('/client', [ClientControllerApi::class, 'store']);
 });
 
 Route::get('client', [ClientControllerApi::class, 'index']);

@@ -24,16 +24,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Paginator::defaultView('pagination::bootstrap-4');
+        Paginator::defaultView('pagination::bootstrap-4 ');
 
         Gate::define('destroy-order', function (User $user, Order $order) {
         return $user->is_admin OR $order->order_price < 1000;
 
-    });
+        });
         Gate::define('edit-order', function (User $user, Order $order) {
             return $user->is_admin OR $order->order_price < 1000;
 
         });
 
+        Gate::define('create-flower', function(User $user){
+            return true;
+        });
     }
 }

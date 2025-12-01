@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Flower;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class FlowerControllerApi extends Controller
 {
@@ -24,10 +27,46 @@ class FlowerControllerApi extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
-        //
+        if (! Gate::allows('create-flower')) {
+            return response()->json([
+                'code' => 1,
+                'message' => 'У вас нет прав',
+            ]);
+        }
+
+        $validated = $request->validate([
+            'flower_name' => 'required|unique:flowers|max:255',
+            'image' => 'required|file'
+        ]);
+
+        $file = $request->file('image');
+
+        $fileName = rand(1, 100000) . '_' . $file->getClientOriginalName();
+
+        try {
+
+            $path = Storage::disk('s3')->putFileAs('flower_pictures', $file, $fileName);
+
+            $fileUrl = Storage::disk('s3')->url($path);
+        } catch (Exception $e) {
+            return response()->json([
+                'code' => 2,
+                'message' => 'Ошибка загрузки файла в S3',
+            ]);
+        }
+
+        $flower = new Flower($validated);
+        $flower->picture_url = $fileUrl;
+        $flower->save();
+        return response()->json([
+            'code' => 0,
+            'message' => 'Категория успешно добавлена',
+        ]);
     }
+
 
     /**
      * Display the specified resource.
