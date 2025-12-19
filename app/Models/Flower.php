@@ -9,8 +9,7 @@ class Flower extends Model
 
 {
     protected $table = 'flowers';
-    protected $fillable = ['flower_name', 'picture_url'];
-    public function orders(): BelongsToMany
+    protected $fillable = ['flower_name', 'flower_remains', 'flower_price', 'picture_url'];    public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class, 'orders_flowers');
     }

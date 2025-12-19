@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('flowers', function (Blueprint $table) {
             $table->id();
             $table->string('flower_name', 64);
-            $table->integer('flower_remains');
-            $table->integer('flower_price');
+            $table->unsignedInteger('flower_remains'); // неотрицательное целое
+            $table->unsignedInteger('flower_price');   // неотрицательное целое
+            $table->string('picture_url')->nullable(); // может быть пустым
+            $table->timestamps(); // created_at, updated_at
         });
     }
 
